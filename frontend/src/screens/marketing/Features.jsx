@@ -3,40 +3,42 @@ import MarketingLayout, { Container } from './MarketingLayout.jsx'
 import { KICK, SERIF } from '../../data/tokens.js'
 import { useDocumentTitle } from '../../data/useDocumentTitle.js'
 
+const BASE = import.meta.env.BASE_URL
+
 const MAJOR = [
   {
     kicker: 'Net worth',
     title: 'One number that actually means something',
     body: 'Total assets minus loans, tracked over time, broken down by asset class and by family member. No more adding up a dozen apps in your head before you know where you stand.',
-    img: '/screenshots/dashboard.webp',
+    img: `${BASE}screenshots/dashboard.webp`,
     alt: 'Kosh dashboard with total net worth, a 12-month trend chart, asset allocation, and per-member breakdown',
   },
   {
     kicker: 'Investments',
     title: 'Mutual funds, stocks, gold, FDs, and NPS in one ledger',
     body: 'Every holding in one place with invested vs. current value and gain at a glance — instead of five different apps and a spreadsheet nobody keeps up to date.',
-    img: '/screenshots/investments.webp',
+    img: `${BASE}screenshots/investments.webp`,
     alt: 'Kosh investments tab showing a mutual fund holdings table with invested, current value, and gain columns',
   },
   {
     kicker: 'Tax planning',
     title: 'A real tax advisor for the year ahead, not just last year\'s numbers',
     body: 'Compare old vs. new regime instantly, see what\'s maturing this financial year, and get AI-generated, fact-grounded tax-saving recommendations — reviewed against your actual holdings, not generic advice. Even the tax slabs themselves are data you can update and approve when a Budget changes them, not hardcoded numbers waiting on an app update.',
-    img: '/screenshots/tax.webp',
+    img: `${BASE}screenshots/tax.webp`,
     alt: 'Kosh tax tab showing regime comparison, tax payable, advance tax schedule, and AI tax-saving recommendations',
   },
   {
     kicker: 'For your CA',
     title: 'A proper report, not a screen-share',
     body: 'Pick the sections you want — investments, insurance, loans, income, a net worth summary — and download a clean PDF or Excel file shaped for handing to an accountant, not a raw data dump.',
-    img: '/screenshots/export.webp',
+    img: `${BASE}screenshots/export.webp`,
     alt: 'Kosh export dialog with checkboxes for each report section and a PDF/Excel format toggle',
   },
   {
     kicker: 'Family sharing',
     title: 'Let your parents see where things stand, without handing over a password',
     body: 'Give each family member their own private link to a read-only family report. They unlock it with a 6-digit code from an authenticator app on their phone, so there\'s no password to remember and no Google account needed. There\'s no SMS provider either, so their numbers never leave your server. Revoke or reset anyone in one tap, and see exactly when each link was opened.',
-    img: '/screenshots/sharing.webp',
+    img: `${BASE}screenshots/sharing.webp`,
     alt: 'Kosh family sharing dialog listing family members with their access status, last-opened time, and revoke/reset controls',
   },
 ]

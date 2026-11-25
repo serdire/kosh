@@ -52,7 +52,7 @@ export default function Home() {
           boxShadow: 'var(--shadow-lg)', background: 'var(--surface)',
         }}>
           <img
-            src="/screenshots/dashboard.webp"
+            src={`${import.meta.env.BASE_URL}screenshots/dashboard.webp`}
             alt="Kosh dashboard showing household net worth, asset allocation, and per-member holdings"
             style={{ display: 'block', width: '100%', height: 'auto' }}
             loading="eager"
