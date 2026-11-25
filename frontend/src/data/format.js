@@ -1,19 +1,6 @@
 // Formatting helpers — Indian numbering, ₹ INR, percentages, dates
 
-function groupIndian(intStr) {
-  if (intStr.length <= 3) return intStr
-  const last3 = intStr.slice(-3)
-  let other = intStr.slice(0, -3)
-  other = other.replace(/\B(?=(\d{2})+(?!\d))/g, ',')
-  return other + ',' + last3
-}
-
-export function fmtINR(n) {
-  const neg = n < 0
-  const v = Math.round(Math.abs(n))
-  const s = '₹' + groupIndian(v.toString())
-  return neg ? '−' + s : s
-}
+export const fmtINR = n => (n < 0 ? '−₹' : '₹') + Math.round(Math.abs(n)).toLocaleString('en-IN')
 
 // ₹19.6L, ₹1.06Cr, ₹62K
 export function fmtCompact(n) {
@@ -33,9 +20,7 @@ export function fmtPct(n, dp = 1) {
 
 // Whole-number share of part in whole, 0 when whole is 0 — a brand-new
 // household with nothing entered yet would otherwise show "NaN%".
-export function sharePct(part, whole) {
-  return whole > 0 ? Math.round(part / whole * 100) : 0
-}
+export const sharePct = (part, whole) => whole > 0 ? Math.round((part / whole) * 100) : 0
 
 export function fmtDate(d) {
   if (!d) return ''

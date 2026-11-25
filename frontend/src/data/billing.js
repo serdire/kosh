@@ -1,3 +1,5 @@
+import { fmtINR } from './format.js'
+
 // Hosted billing: API calls, Razorpay Checkout, and what the household's
 // plan includes (the server enforces it; this only decides what to show).
 
@@ -51,7 +53,7 @@ export function planRunning(b, now = Date.now()) {
 
 export const daysLeft = (iso, now = Date.now()) => Math.max(0, Math.ceil((Date.parse(iso) - now) / 86_400_000))
 
-export const fmtRupees = paise => '₹' + (paise / 100).toLocaleString('en-IN', { maximumFractionDigits: 0 })
+export const fmtRupees = paise => fmtINR(paise / 100)
 
 function loadCheckoutScript() {
   if (window.Razorpay) return Promise.resolve()

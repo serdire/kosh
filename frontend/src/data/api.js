@@ -24,11 +24,17 @@ export async function fetchData() {
       _cache = await res.json()
       return _cache
     }
+    if (res.status === 404) {
+      _cache = demoData
+      return _cache
+    }
+    const body = await res.text().catch(() => '')
+    throw new Error(body.trim() || `Server error ${res.status}`)
   } catch (e) {
-    // Static / GitHub Pages fallback
+    if (e.message && e.message.startsWith('Server error')) throw e
+    _cache = demoData
+    return _cache
   }
-  _cache = demoData
-  return _cache
 }
 
 export function getCached() {
