@@ -2,16 +2,16 @@
 
 export const CLASS_META = {
   mf:        { label: 'Mutual Funds',       color: 'var(--accent)' },
-  stocks:    { label: 'Stocks',             color: '#B5603E' },
-  metals:    { label: 'Gold & Silver',      color: '#B0822C' },
-  fixed:     { label: 'FD / RD',            color: '#9AA79E' },
-  insurance: { label: 'Insurance & Plans',  color: '#5E7D72' },
-  nps:       { label: 'NPS',               color: '#6B7A99' },
+  stocks:    { label: 'Stocks',             color: '#00f0ff' },
+  metals:    { label: 'Gold & Silver',      color: '#ffbe3b' },
+  fixed:     { label: 'FD / RD',            color: '#a855f7' },
+  insurance: { label: 'Insurance & Plans',  color: '#ff5e3a' },
+  nps:       { label: 'NPS',               color: '#00f5a0' },
 }
 
 export const ED_ORDER = ['mf', 'stocks', 'fixed', 'nps', 'insurance', 'metals']
 export const ED_COL = {
-  mf: 'var(--accent)', stocks: '#B5603E', fixed: '#9AA79E', nps: '#6B7A99', insurance: '#5E7D72', metals: '#B0822C'
+  mf: 'var(--accent)', stocks: '#00f0ff', fixed: '#a855f7', nps: '#00f5a0', insurance: '#ff5e3a', metals: '#ffbe3b'
 }
 export const ED_LABEL = {
   mf: 'Mutual funds', stocks: 'Stocks', fixed: 'FD / RD', nps: 'NPS', insurance: 'Insurance', metals: 'Gold & silver'
@@ -19,10 +19,10 @@ export const ED_LABEL = {
 
 // NPS asset class labels and colors (used in Investments.jsx NPSTable)
 export const AC_LABEL = { E: 'Equity', C: 'Corp Bond', G: 'Govt Sec', A: 'Alternative' }
-export const AC_COLOR = { E: 'var(--accent)', C: '#6B7A99', G: '#9AA79E', A: '#B0822C' }
+export const AC_COLOR = { E: 'var(--accent)', C: '#a855f7', G: '#00f0ff', A: '#ffbe3b' }
 
 // Outflow type display (used in Dashboard.jsx upcoming outflows widget)
-export const OUTFLOW_COLOR = { sip: 'var(--accent)', insurance: '#5E7D72', loan: '#B5603E' }
+export const OUTFLOW_COLOR = { sip: 'var(--accent)', insurance: '#ff5e3a', loan: '#ff3366' }
 export const OUTFLOW_LABEL = { sip: 'SIP debit', insurance: 'Insurance premium', loan: 'Loan EMI' }
 
 // Urgency thresholds — days before due date that we highlight in warning colour

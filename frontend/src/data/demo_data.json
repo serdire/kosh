@@ -1,8 +1,8 @@
 {
   "members": [
-    {"id":"you","name":"You","full_name":"Aarav (You)","relation":"Self","slab":30,"color":"#1C4A3A"},
-    {"id":"mom","name":"Mom","full_name":"Mom","relation":"Mother","slab":5,"color":"#C98A5E"},
-    {"id":"dad","name":"Dad","full_name":"Dad","relation":"Father · Sr. Citizen","slab":5,"color":"#7E8AA2"}
+    {"id":"you","name":"You","full_name":"Aarav (You)","relation":"Self","slab":30,"color":"#ff007f"},
+    {"id":"mom","name":"Mom","full_name":"Mom","relation":"Mother","slab":5,"color":"#00f0ff"},
+    {"id":"dad","name":"Dad","full_name":"Dad","relation":"Father · Sr. Citizen","slab":5,"color":"#a855f7"}
   ],
   "mf": [
     {"id":"mf1","name":"Bluepeak Small Cap Fund","plan":"Direct · Growth","platform":"Lumen Invest","member":"you","invested":72000,"current":78500,"sip":0,"notes":"lumpsum only","category":"Equity"},

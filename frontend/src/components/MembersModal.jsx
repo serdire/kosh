@@ -5,7 +5,7 @@ import { useData } from '../data/context.jsx'
 import { holdingsFor } from '../data/aggregate.js'
 
 const SLABS = [0, 5, 10, 15, 20, 25, 30]
-const COLORS = ['#1C4A3A', '#C98A5E', '#5B6FA6', '#A87C2A', '#8E5B8A', '#4F8A8B', '#B5603E', '#6B7F3A']
+const COLORS = ['#ff007f', '#00f0ff', '#a855f7', '#ffbe3b', '#00f5a0', '#ff5e3a', '#ec4899', '#38bdf8']
 const EMPTY = { name: '', full_name: '', relation: '', slab: 0, color: COLORS[0] }
 
 function holdingCount(data, id) {
