@@ -139,9 +139,27 @@ func (c *Client) ReadSheets(names []string) (map[string][][]interface{}, error) 
 	return out, nil
 }
 
+// sanitizeRow neutralises formula injection (CWE-1236) by prepending a
+// single quote to any string cell starting with =, +, -, or @. Google Sheets
+// treats it as plain text without rendering the leading quote.
+func sanitizeRow(row []interface{}) []interface{} {
+	out := make([]interface{}, len(row))
+	for i, v := range row {
+		if s, ok := v.(string); ok && len(s) > 0 {
+			switch s[0] {
+			case '=', '+', '-', '@':
+				out[i] = "'" + s
+				continue
+			}
+		}
+		out[i] = v
+	}
+	return out
+}
+
 // AppendRow adds a new row to the given sheet. Returns the new row number (1-indexed).
 func (c *Client) AppendRow(sheetName string, row []interface{}) (int, error) {
-	vr := &sheets.ValueRange{Values: [][]interface{}{row}}
+	vr := &sheets.ValueRange{Values: [][]interface{}{sanitizeRow(row)}}
 	resp, err := c.svc.Spreadsheets.Values.
 		Append(c.spreadsheetID, sheetName, vr).
 		ValueInputOption("USER_ENTERED").
@@ -170,7 +188,7 @@ func (c *Client) UpdateRow(sheetName, id string, row []interface{}) error {
 		if len(r) > 0 && fmt.Sprint(r[0]) == id {
 			rowNum := i + 1
 			rangeStr := fmt.Sprintf("%s!A%d", sheetName, rowNum)
-			vr := &sheets.ValueRange{Values: [][]interface{}{row}}
+			vr := &sheets.ValueRange{Values: [][]interface{}{sanitizeRow(row)}}
 			_, err := c.svc.Spreadsheets.Values.
 				Update(c.spreadsheetID, rangeStr, vr).
 				ValueInputOption("USER_ENTERED").

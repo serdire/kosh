@@ -109,7 +109,11 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Verify the token was issued for this app's client ID.
-	if h.clientID != "" && info.Aud != h.clientID {
+	if h.clientID == "" {
+		http.Error(w, "Google Client ID is not configured on this server", http.StatusServiceUnavailable)
+		return
+	}
+	if info.Aud != h.clientID {
 		http.Error(w, "token audience mismatch", http.StatusUnauthorized)
 		return
 	}
@@ -163,7 +167,15 @@ func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
 
 // Logout clears the session cookie.
 func (h *AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
-	http.SetCookie(w, &http.Cookie{Name: "kosh_session", Value: "", Path: "/", Secure: h.cookieSecure, MaxAge: -1})
+	http.SetCookie(w, &http.Cookie{
+		Name:     "kosh_session",
+		Value:    "",
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   h.cookieSecure,
+		SameSite: http.SameSiteLaxMode,
+		MaxAge:   -1,
+	})
 	writeJSON(w, map[string]string{"ok": "true"})
 }
 

@@ -153,6 +153,8 @@ func New(ctx context.Context, cfg Config, deps Deps) (*App, error) {
 		authH.SetOpenSignup(true)
 	case cfg.GoogleClientID != "" && cfg.SessionSecret != "":
 		log.Printf("✓ Auth enabled — %d allowed email(s)", len(cfg.AllowedEmails))
+	case cfg.GoogleClientID != "" && cfg.SessionSecret == "":
+		return nil, fmt.Errorf("insecure configuration: GOOGLE_CLIENT_ID is set but SESSION_SECRET is empty (generate one with `openssl rand -base64 32`)")
 	default:
 		log.Println("⚠ Auth disabled (GOOGLE_CLIENT_ID / SESSION_SECRET not set)")
 	}
