@@ -168,17 +168,17 @@ export default function Login({ clientId, demoAvailable, onDemo, onLogin, hosted
           A quiet ledger, not a live feed.
         </div>
         <a
-          href="https://github.com/jenish-jain/kosh" target="_blank" rel="noopener noreferrer"
+          href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
           style={{ ...KICK, display: 'inline-block', marginTop: 16, color: 'var(--ink-3)', textDecoration: 'none' }}
         >
           View source & self-host →
         </a>
         <div>
           <a
-            href="https://jenishjain.in/" target="_blank" rel="noopener noreferrer"
+            href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
             style={{ ...KICK, display: 'inline-block', marginTop: 10, fontSize: 9.5, color: 'var(--ink-3)', opacity: .6, textDecoration: 'none' }}
           >
-            Developed by Jenish Jain
+            Serdire
           </a>
         </div>
       </div>

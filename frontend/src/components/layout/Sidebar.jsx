@@ -122,13 +122,13 @@ export default function Sidebar({ screen, setScreen, data, user, onLogout, onOpe
           )}
         </div>
         <a
-          href="https://jenishjain.in/" target="_blank" rel="noopener noreferrer" className="sidebar-credit"
+          href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer" className="sidebar-credit"
           style={{
             display: 'block', marginTop: 10, fontSize: 9, letterSpacing: '.04em',
             color: 'var(--ink-3)', opacity: .5, textDecoration: 'none',
           }}
         >
-          Developed by Jenish Jain
+          Kosh · Serdire
         </a>
       </div>
     </aside>

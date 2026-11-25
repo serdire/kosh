@@ -56,10 +56,10 @@ export default function MarketingLayout({ children }) {
 
       <footer style={{ borderTop: '1px solid var(--line)', padding: '32px', textAlign: 'center' }}>
         <a
-          href="https://jenishjain.in/" target="_blank" rel="noopener noreferrer"
+          href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
           style={{ display: 'inline-block', fontSize: 10.5, letterSpacing: '.04em', color: 'var(--ink-3)', opacity: .6, textDecoration: 'none' }}
         >
-          Developed by Jenish Jain
+          Kosh · Serdire
         </a>
       </footer>
     </div>

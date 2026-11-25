@@ -24,10 +24,9 @@ export default function About() {
             kept needing formulas nobody remembered how to write six months later.
           </p>
           <p>
-            It's a personal project by <a href="https://jenishjain.in/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-ink)', fontWeight: 600 }}>Jenish Jain</a>,
-            built first to manage his own family's finances — investments, insurance, loans, and the yearly
-            tax-planning scramble — in one place instead of five. It's shared publicly because the problem
-            it solves isn't unique to one household.
+            It's a personal project built to manage family finances — investments, insurance, loans,
+            and the yearly tax-planning scramble — in one place instead of five. It's shared publicly
+            because the problem it solves isn't unique to one household.
           </p>
 
           <div style={{ height: 1, background: 'var(--line)', margin: '40px 0' }} />
@@ -69,7 +68,7 @@ export default function About() {
               Read the self-host guide
             </Link>
             <a
-              href="https://github.com/jenish-jain/kosh" target="_blank" rel="noopener noreferrer"
+              href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
               className="btn" style={{ textDecoration: 'none', padding: '11px 22px', fontSize: 14 }}
             >
               View source on GitHub

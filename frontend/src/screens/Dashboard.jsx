@@ -195,7 +195,7 @@ export default function Dashboard({ data, memberId, setScreen, onSelectMember })
         Figures maintained locally and entered by hand — a quiet ledger, not a live feed.
       </div>
       <a
-        href="https://github.com/jenish-jain/kosh" target="_blank" rel="noopener noreferrer"
+        href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
         style={{ ...KICK, display: 'inline-block', marginTop: 10, textDecoration: 'none' }}
       >
         View source & self-host →

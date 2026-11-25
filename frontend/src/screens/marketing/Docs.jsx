@@ -48,7 +48,7 @@ export default function Docs() {
         <p style={{ fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
           Runs entirely on infrastructure you control — your own Google account, your own spreadsheet,
           your own server. This is the overview; the{' '}
-          <a href="https://github.com/jenish-jain/kosh/blob/master/docs/SELF_HOSTING.md" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-ink)', fontWeight: 600 }}>
+          <a href="https://github.com/serdire/kosh/blob/master/docs/SELF_HOSTING.md" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-ink)', fontWeight: 600 }}>
             full reference guide
           </a>{' '}
           on GitHub has every tab schema and environment variable in detail.
@@ -76,7 +76,7 @@ export default function Docs() {
             Local dev mode needs nothing beyond the repo itself — it serves sample data and skips auth
             entirely, so you can try the full UI in under a minute.
           </p>
-          <Code>{`git clone https://github.com/jenish-jain/kosh.git
+          <Code>{`git clone https://github.com/serdire/kosh.git
 cd kosh
 make install   # first time only — Go + npm dependencies
 make dev       # Go API on :8080, Vite on :5173`}</Code>
