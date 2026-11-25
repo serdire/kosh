@@ -16,3 +16,6 @@ frontend/dist/
 
 *.png
 review
+.gopath/
+.nodejs/
+frontend/.npm-cache/

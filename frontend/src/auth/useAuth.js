@@ -12,7 +12,10 @@ export function useAuth() {
 
   useEffect(() => {
     fetch('/api/auth/config')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('config failed')
+        return r.json()
+      })
       .then(cfg => {
         setDemoAvailable(!!cfg.demo)
         setAiEnabled(!!cfg.ai_enabled)
@@ -26,14 +29,25 @@ export function useAuth() {
           .then(u => { setUser(u); setAuthState('authed') })
           .catch(() => setAuthState('login'))
       })
-      .catch(() => setAuthState('authed'))
+      .catch(() => {
+        // Fallback for static GitHub Pages hosting
+        setDemoAvailable(true)
+        setUser({ name: 'Demo User', email: 'demo@kosh.local', demo: true })
+        setAuthState('authed')
+      })
   }, [])
 
   const handleLogin = u => { setUser(u); setAuthState('authed') }
 
   const handleDemo = async () => {
-    const res = await fetch('/api/auth/demo-login', { method: 'POST', credentials: 'include' })
-    if (res.ok) handleLogin(await res.json())
+    try {
+      const res = await fetch('/api/auth/demo-login', { method: 'POST', credentials: 'include' })
+      if (res.ok) {
+        handleLogin(await res.json())
+        return
+      }
+    } catch (e) {}
+    handleLogin({ name: 'Demo User', email: 'demo@kosh.local', demo: true })
   }
 
   const handleLogout = async () => {

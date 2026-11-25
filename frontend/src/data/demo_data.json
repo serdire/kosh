@@ -1,0 +1,104 @@
+{
+  "members": [
+    {"id":"you","name":"You","full_name":"Aarav (You)","relation":"Self","slab":30,"color":"#1C4A3A"},
+    {"id":"mom","name":"Mom","full_name":"Mom","relation":"Mother","slab":5,"color":"#C98A5E"},
+    {"id":"dad","name":"Dad","full_name":"Dad","relation":"Father · Sr. Citizen","slab":5,"color":"#7E8AA2"}
+  ],
+  "mf": [
+    {"id":"mf1","name":"Bluepeak Small Cap Fund","plan":"Direct · Growth","platform":"Lumen Invest","member":"you","invested":72000,"current":78500,"sip":0,"notes":"lumpsum only","category":"Equity"},
+    {"id":"mf2","name":"Northstar Flexi Cap Fund","plan":"Direct · Growth","platform":"Brightleaf","member":"you","invested":318500,"current":342100,"sip":6000,"notes":"","category":"Equity"},
+    {"id":"mf3","name":"Solstice Focused Fund","plan":"Direct · Growth","platform":"Lumen Invest","member":"you","invested":198400,"current":215600,"sip":3500,"notes":"","category":"Equity"},
+    {"id":"mf4","name":"Vantage Active Fund","plan":"Direct · Growth","platform":"Brightleaf","member":"you","invested":276000,"current":291200,"sip":6000,"notes":"6k diff","category":"Equity"},
+    {"id":"mf5","name":"Horizon Nifty 50 Index Fund","plan":"Direct · Growth","platform":"TradeNest","member":"you","invested":545000,"current":588000,"sip":12000,"notes":"1 failed txn","category":"Equity"},
+    {"id":"mf6","name":"Meridian Pharma & Healthcare Fund","plan":"Direct · Growth","platform":"Lumen Invest","member":"you","invested":84000,"current":91500,"sip":4000,"notes":"","category":"Equity"},
+    {"id":"mf7","name":"Cobalt Multi Cap Fund","plan":"Direct · Growth","platform":"Brightleaf","member":"you","invested":192000,"current":204800,"sip":4000,"notes":"","category":"Equity"},
+    {"id":"mf8","name":"Evergreen ELSS Tax Saver","plan":"Direct · Growth","platform":"Lumen Invest","member":"you","invested":15000,"current":16200,"sip":0,"notes":"paused","category":"ELSS"}
+  ],
+  "stocks": [
+    {"id":"st1","name":"Crestpoint Industries","ticker":"CRSTPT","qty":35,"avg_price":1860,"last_price":1985,"member":"you"},
+    {"id":"st2","name":"Meridian Bank","ticker":"MRDNBK","qty":80,"avg_price":980,"last_price":1042,"member":"you"},
+    {"id":"st3","name":"Parallax Technologies","ticker":"PRLXTC","qty":60,"avg_price":1120,"last_price":1205,"member":"you"}
+  ],
+  "metals": [
+    {"id":"me1","type":"Gold","date_purchased":"2026-02-14","grams":8,"buy_rate":13950,"today_price":14820,"place":"Sundial Jewellers","member":"you"},
+    {"id":"me2","type":"Silver","date_purchased":"2026-02-14","grams":25,"buy_rate":198.5,"today_price":215.3,"place":"Sundial Jewellers","member":"you"}
+  ],
+  "fixed": [
+    {"id":"fd1","kind":"FD","name":"Northgate Bank FD","member":"you","principal":400000,"rate":7.4,"current_value":428000,"opened":"2025-03-10","matures":"2027-03-10","monthly":0},
+    {"id":"fd2","kind":"RD","name":"Crestmark Recurring Deposit","member":"mom","principal":48000,"rate":6.25,"current_value":31000,"opened":"2025-07-01","matures":"2026-07-01","monthly":4000}
+  ],
+  "insurance": [
+    {"id":"in1","name":"Pinnacle Endowment Assurance","type":"Endowment","member":"you","premium":36000,"freq":"annual","paid":252000,"value":298000,"cover":800000,"maturity":2037,"due_date":"2026-07-05"},
+    {"id":"in2","name":"Northshield Term Cover","type":"Term","member":"you","premium":14500,"freq":"annual","paid":72500,"value":0,"cover":8000000,"maturity":2054,"due_date":"2025-10-15"},
+    {"id":"in3","name":"Crestmark Wealth ULIP","type":"ULIP","member":"you","premium":80000,"freq":"annual","paid":400000,"value":478000,"cover":800000,"maturity":2039,"due_date":"2025-12-20"},
+    {"id":"in4","name":"Sundial Money-Back Plan","type":"Money-back","member":"you","premium":22000,"freq":"annual","paid":220000,"value":260000,"cover":400000,"maturity":2027,"due_date":"2026-01-15"}
+  ],
+  "loans": [
+    {"id":"ln1","lender":"Sundial Home Loan","type":"Home","member":"you","principal":1500000,"outstanding":980000,"rate":8.75,"emi":15800,"emi_day":7,"started":"2022-08-01","tenure_months":180},
+    {"id":"ln2","lender":"Crestpoint Auto Loan","type":"Car","member":"you","principal":420000,"outstanding":118000,"rate":9.5,"emi":9700,"emi_day":12,"started":"2023-11-20","tenure_months":60}
+  ],
+  "nps": [
+    {"id":"nps1","pran":"110024567890","member":"you","tier":"T1","asset_class":"E","scheme":"NPS TRUST - A/C NORTHCREST PENSION MGMT - SCHEME E - TIER I","fund_manager":"Northcrest Pension","units":1248.6532,"nav":54.38,"invested":58000},
+    {"id":"nps2","pran":"110024567890","member":"you","tier":"T1","asset_class":"C","scheme":"NPS TRUST - A/C NORTHCREST PENSION MGMT - SCHEME C - TIER I","fund_manager":"Northcrest Pension","units":812.4100,"nav":31.72,"invested":24000},
+    {"id":"nps3","pran":"110024567890","member":"you","tier":"T1","asset_class":"G","scheme":"NPS TRUST - A/C NORTHCREST PENSION MGMT - SCHEME G - TIER I","fund_manager":"Northcrest Pension","units":594.2200,"nav":26.15,"invested":14000}
+  ],
+  "sips": [
+    {"id":"sip1","fund":"Northstar Flexi Cap","member":"you","amount":6000,"day":5,"status":"active","start_date":"2022-03-10","platform":"Brightleaf","kind":"MF"},
+    {"id":"sip2","fund":"Vantage Active Fund","member":"you","amount":6000,"day":6,"status":"active","start_date":"2022-10-15","platform":"Brightleaf","kind":"MF"},
+    {"id":"sip3","fund":"Cobalt Multi Cap Fund","member":"you","amount":4000,"day":6,"status":"active","start_date":"2022-10-16","platform":"Brightleaf","kind":"MF"},
+    {"id":"sip4","fund":"Meridian Pharma & Healthcare","member":"you","amount":4000,"day":18,"status":"active","start_date":"2025-07-01","platform":"Lumen Invest","kind":"MF"},
+    {"id":"sip5","fund":"Solstice Focused Fund","member":"you","amount":3500,"day":20,"status":"active","start_date":"2021-09-10","platform":"Lumen Invest","kind":"MF"},
+    {"id":"sip6","fund":"Horizon Nifty 50 Index","member":"you","amount":12000,"day":20,"status":"active","start_date":"2023-10-05","platform":"TradeNest","kind":"MF"},
+    {"id":"sip7","fund":"Evergreen ELSS","member":"you","amount":0,"day":21,"status":"paused","start_date":"2025-11-05","platform":"Lumen Invest","kind":"MF"},
+    {"id":"sip8","fund":"Meridian Bank","member":"you","amount":8000,"day":10,"status":"active","start_date":"2024-05-12","platform":"TradeNest","kind":"Stock"}
+  ],
+  "lumpsums": [
+    {"id":"lp1","fund":"Bluepeak Small Cap Fund","member":"you","amount":72000,"date":"2025-01-22"},
+    {"id":"lp2","fund":"Evergreen ELSS","member":"you","amount":15000,"date":"2025-11-05"},
+    {"id":"lp3","fund":"Solstice Focused Fund","member":"you","amount":6800,"date":"2025-04-18"}
+  ],
+  "income": [
+    {"id":"inc1","source":"Northcrest Systems","type":"Salary","period":"Apr 2026","gross":400000,"net":299600,"pf_deduction":14400,"tax_deduction":86000,"other_deductions":0,"notes":""},
+    {"id":"inc2","source":"Northcrest Systems","type":"Salary","period":"May 2026","gross":400000,"net":299600,"pf_deduction":14400,"tax_deduction":86000,"other_deductions":0,"notes":""},
+    {"id":"inc3","source":"Northcrest Systems","type":"Salary","period":"Jun 2026","gross":400000,"net":299600,"pf_deduction":14400,"tax_deduction":86000,"other_deductions":0,"notes":""},
+    {"id":"inc4","source":"Northcrest Systems","type":"Salary","period":"Jul 2026","gross":400000,"net":299600,"pf_deduction":14400,"tax_deduction":86000,"other_deductions":0,"notes":""},
+    {"id":"inc5","source":"Northcrest Systems","type":"Salary","period":"Aug 2026","gross":400000,"net":299600,"pf_deduction":14400,"tax_deduction":86000,"other_deductions":0,"notes":""}
+  ],
+  "history": [
+    {"month":"Jul 25","value":1718000},
+    {"month":"Aug 25","value":1763000},
+    {"month":"Sep 25","value":1738000},
+    {"month":"Oct 25","value":1808000},
+    {"month":"Nov 25","value":1853000},
+    {"month":"Dec 25","value":1896000},
+    {"month":"Jan 26","value":1953000},
+    {"month":"Feb 26","value":1908000},
+    {"month":"Mar 26","value":2018000},
+    {"month":"Apr 26","value":2093000},
+    {"month":"May 26","value":2153000},
+    {"month":"Jun 26","value":2233000}
+  ],
+  "tax_recommendations": [
+    {"id":"tr-seed-0","generated_date":"2026-06-15","fy":"FY 2026-27","regime":"old","category":"80C Gap","headline":"Top up ELSS by ₹1.35L to max out your 80C limit","suggested_amount":135000,"potential_tax_saving":40500,"rationale":"Your PF + life insurance premiums + ELSS cover only ~₹15K of the ₹1.5L 80C cap this FY. A lumpsum or SIP top-up into your existing ELSS fund closes the gap before March.","status":"actioned","superseded_by":""},
+    {"id":"tr-seed-1","generated_date":"2026-06-15","fy":"FY 2026-27","regime":"old","category":"NPS 80CCD(1B)","headline":"Contribute ₹50K to NPS for the extra 80CCD(1B) deduction","suggested_amount":50000,"potential_tax_saving":15600,"rationale":"This is on top of the ₹1.5L 80C cap — you have an active NPS account but no visibility into this FY's contribution. A ₹50K top-up before March captures the full additional deduction.","status":"new","superseded_by":"tr-seed-2"},
+    {"id":"tr-seed-2","generated_date":"2026-08-01","fy":"FY 2026-27","regime":"old","category":"NPS 80CCD(1B)","headline":"Contribute ₹50K to NPS before 15 Mar — still open","suggested_amount":50000,"potential_tax_saving":15600,"rationale":"No NPS top-up detected since the last cycle. This remains your highest-priority open item for the additional 80CCD(1B) deduction.","status":"new","superseded_by":""}
+  ],
+  "tax_rules": [
+    {"id":"seed-old","fy":"FY 2025-26","regime":"old","status":"active","source":"Bundled default (pre-rules-engine values)","generated_date":"","activated_date":"","rules_json":"{\"schemaVersion\":1,\"slabs\":[{\"upto\":250000,\"rate\":0},{\"upto\":500000,\"rate\":0.05},{\"upto\":1000000,\"rate\":0.2},{\"rate\":0.3}],\"stdDeduction\":0,\"rebateThreshold\":500000,\"rebateAmount\":999999999,\"surcharge\":[{\"above\":5000000,\"rate\":0.1},{\"above\":10000000,\"rate\":0.15}],\"cessRate\":0.04,\"deductionCaps\":{\"section80C\":150000,\"section80DSelf\":25000,\"section80DSenior\":50000,\"nps80CCD1B\":50000}}","notes":"Seeded automatically on first run."},
+    {"id":"seed-new","fy":"FY 2025-26","regime":"new","status":"active","source":"Bundled default (pre-rules-engine values)","generated_date":"","activated_date":"","rules_json":"{\"schemaVersion\":1,\"slabs\":[{\"upto\":400000,\"rate\":0},{\"upto\":800000,\"rate\":0.05},{\"upto\":1200000,\"rate\":0.1},{\"upto\":1600000,\"rate\":0.15},{\"upto\":2000000,\"rate\":0.2},{\"upto\":2400000,\"rate\":0.25},{\"rate\":0.3}],\"stdDeduction\":75000,\"rebateThreshold\":1200000,\"rebateAmount\":999999999,\"surcharge\":[{\"above\":5000000,\"rate\":0.1},{\"above\":10000000,\"rate\":0.15}],\"cessRate\":0.04,\"deductionCaps\":{\"section80C\":150000,\"section80DSelf\":25000,\"section80DSenior\":50000,\"nps80CCD1B\":50000}}","notes":"Seeded automatically on first run."}
+  ],
+  "config": {
+    "gross_income": 4800000,
+    "regime": "New",
+    "capital_gains_this_year": 245000,
+    "shifted_to_parents": 360000,
+    "surcharge_from": 5000000,
+    "next_surcharge_at": 10000000,
+    "parents_capacity_mom": 650000,
+    "parents_capacity_dad": 700000,
+    "deduction_80c": 150000,
+    "deduction_80d": 25000,
+    "other_deductions": 40000,
+    "saved_by_filing": 51200
+  }
+}

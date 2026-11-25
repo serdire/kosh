@@ -1,5 +1,7 @@
+import demoData from './demo_data.json'
+
 // API client — talks to Go backend at /api/*
-// In dev mode the Go server returns dev_data.json
+// In dev mode or static hosting (GitHub Pages), returns demoData
 
 const BASE = '/api'
 
@@ -16,12 +18,16 @@ async function mutationError(what, res) {
 }
 
 export async function fetchData() {
-  const res = await fetch(`${BASE}/data`)
-  if (!res.ok) {
-    const body = await res.text().catch(() => '')
-    throw new Error(body.trim() || `Server error ${res.status}`)
+  try {
+    const res = await fetch(`${BASE}/data`)
+    if (res.ok) {
+      _cache = await res.json()
+      return _cache
+    }
+  } catch (e) {
+    // Static / GitHub Pages fallback
   }
-  _cache = await res.json()
+  _cache = demoData
   return _cache
 }
 
