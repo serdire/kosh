@@ -1,12 +1,12 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import MarketingLayout, { Container } from './MarketingLayout.jsx'
-import { KICK, SERIF } from '../../data/tokens.js'
 import { useDocumentTitle } from '../../data/useDocumentTitle.js'
 import { useHosted } from '../../data/serverMode.js'
 
 const SECTIONS = [
   { id: 'quick-start', label: 'Quick start' },
-  { id: 'your-sheet', label: 'Connect your own Google Sheet' },
+  { id: 'your-sheet', label: 'Connect your Google Sheet' },
   { id: 'sign-in', label: 'Adding Google Sign-In' },
   { id: 'family-sharing', label: 'Sharing with family' },
   { id: 'ai', label: 'AI features' },
@@ -14,23 +14,38 @@ const SECTIONS = [
   { id: 'deploying', label: 'Deploying' },
 ]
 
-function Code({ children }) {
+function CodeBlock({ label, children }) {
+  const [copied, setCopied] = useState(false)
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(children)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1800)
+    } catch {
+      setCopied(false)
+    }
+  }
+
   return (
-    <pre style={{
-      background: 'var(--surface-2)', border: '1px solid var(--line)', borderRadius: 6,
-      padding: '12px 16px', fontSize: 12.5, lineHeight: 1.7, overflowX: 'auto',
-      fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-    }}>
-      {children}
-    </pre>
+    <figure className="doc-code">
+      <figcaption className="doc-code-bar">
+        <span>{label}</span>
+        <button type="button" className="doc-copy-btn" onClick={copy} aria-label={`Copy ${label}`}>
+          {copied ? 'Copied' : 'Copy'}
+        </button>
+      </figcaption>
+      <pre><code>{children}</code></pre>
+      <span className="visually-hidden" aria-live="polite">{copied ? `${label} copied to clipboard` : ''}</span>
+    </figure>
   )
 }
 
 function Section({ id, title, children }) {
   return (
-    <section id={id} style={{ paddingTop: 48, scrollMarginTop: 90 }}>
-      <div style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 600, marginBottom: 16 }}>{title}</div>
-      <div style={{ fontSize: 14.5, color: 'var(--ink-2)', lineHeight: 1.8 }}>{children}</div>
+    <section id={id} className="doc-section">
+      <h2>{title}</h2>
+      {children}
     </section>
   )
 }
@@ -38,134 +53,166 @@ function Section({ id, title, children }) {
 export default function Docs() {
   useDocumentTitle('Documentation — Kosh')
   const hosted = useHosted()
+  const [activeId, setActiveId] = useState(SECTIONS[0].id)
+  const [mobileTocOpen, setMobileTocOpen] = useState(false)
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return
+    const obs = new IntersectionObserver(
+      entries => {
+        const hit = entries.find(e => e.isIntersecting)
+        if (hit) setActiveId(hit.target.id)
+      },
+      { rootMargin: '-18% 0px -65% 0px' },
+    )
+    SECTIONS.forEach(s => {
+      const el = document.getElementById(s.id)
+      if (el) obs.observe(el)
+    })
+    return () => obs.disconnect()
+  }, [])
+
   return (
     <MarketingLayout>
-      <Container style={{ paddingTop: 64, paddingBottom: 16, textAlign: 'center' }}>
-        <div style={{ ...KICK, marginBottom: 14 }}>Documentation</div>
-        <h1 style={{ fontFamily: SERIF, fontSize: 38, fontWeight: 600, margin: '0 0 16px', letterSpacing: '-.01em' }}>
-          Self-hosting Kosh
-        </h1>
-        <p style={{ fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
-          Runs entirely on infrastructure you control — your own Google account, your own spreadsheet,
-          your own server. This is the overview; the{' '}
-          <a href="https://github.com/serdire/kosh/blob/master/docs/SELF_HOSTING.md" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-ink)', fontWeight: 600 }}>
-            full reference guide
-          </a>{' '}
-          on GitHub has every tab schema and environment variable in detail.
-        </p>
-        {hosted && <p style={{ fontSize: 13.5, color: 'var(--ink-3)', lineHeight: 1.7, maxWidth: 560, margin: '14px auto 0' }}>
-          Rather not run it yourself? <Link to="/pricing" style={{ color: 'var(--accent-ink)', fontWeight: 600 }}>Hosted Kosh</Link> is
-          the same app, run for you, with your data still in a Sheet in your own Drive.
-        </p>}
-      </Container>
-
-      <Container style={{ maxWidth: 680, paddingTop: 32, paddingBottom: 72 }}>
-        <div style={{ border: '1px solid var(--line)', borderRadius: 8, padding: '18px 20px', marginBottom: 8 }}>
-          <div style={{ ...KICK, marginBottom: 10 }}>On this page</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {SECTIONS.map(s => (
-              <a key={s.id} href={`#${s.id}`} style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-2)', textDecoration: 'none' }}>
-                {s.label}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <Section id="quick-start" title="Quick start">
-          <p>
-            Local dev mode needs nothing beyond the repo itself — it serves sample data and skips auth
-            entirely, so you can try the full UI in under a minute.
+      <section className="page-head" style={{ paddingBottom: 16 }}>
+        <Container>
+          <span className="mkt-label">Documentation</span>
+          <h1 className="mkt-h1" style={{ marginTop: 10 }}>Self-hosting Kosh</h1>
+          <p className="mkt-lead" style={{ marginTop: 14 }}>
+            Runs on infrastructure you control — your own Google account, spreadsheet, and server. The{' '}
+            <a
+              href="https://github.com/serdire/kosh/blob/master/docs/SELF_HOSTING.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 3 }}
+            >
+              full reference guide
+            </a>{' '}
+            on GitHub documents every tab schema and environment variable.
           </p>
-          <Code>{`git clone https://github.com/serdire/kosh.git
+          {hosted && (
+            <p style={{ fontSize: '0.9rem', color: 'var(--ink-2)', marginTop: 12 }}>
+              Prefer managed hosting? <Link to="/pricing" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 3 }}>Hosted Kosh</Link> runs the same app while keeping your ledger in your Drive.
+            </p>
+          )}
+        </Container>
+      </section>
+
+      <Container>
+        <div className="docs-layout">
+          <aside className="docs-sidebar">
+            <div className="docs-sidebar-title">On this page</div>
+            <nav aria-label="Documentation sections">
+              <ul className="docs-toc">
+                {SECTIONS.map(s => (
+                  <li key={s.id}>
+                    <a href={`#${s.id}`} className={activeId === s.id ? 'is-active' : undefined}>
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+
+          <div>
+            <div className="docs-mobile-toc">
+              <button
+                type="button"
+                className="mkt-btn"
+                aria-expanded={mobileTocOpen}
+                aria-controls="docs-mobile-list"
+                onClick={() => setMobileTocOpen(o => !o)}
+                style={{ width: '100%', justifyContent: 'space-between' }}
+              >
+                <span>Jump to section</span>
+                <span>{mobileTocOpen ? 'Hide' : 'Show'}</span>
+              </button>
+              {mobileTocOpen && (
+                <ul id="docs-mobile-list" className="docs-toc" style={{ marginTop: 8, padding: 10, background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r)' }}>
+                  {SECTIONS.map(s => (
+                    <li key={s.id}>
+                      <a href={`#${s.id}`} onClick={() => setMobileTocOpen(false)}>{s.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <div className="docs-article">
+              <Section id="quick-start" title="Quick start">
+                <p>
+                  Local dev mode needs nothing beyond the repository itself — it serves sample data and skips auth so you can evaluate the full UI in under a minute.
+                </p>
+                <CodeBlock label="terminal">{`git clone https://github.com/serdire/kosh.git
 cd kosh
 make install   # first time only — Go + npm dependencies
-make dev       # Go API on :8080, Vite on :5173`}</Code>
-          <p>
-            Open <strong>localhost:5173</strong>. Nothing you do here touches a real spreadsheet —
-            mutations are no-ops in dev mode.
-          </p>
-        </Section>
+make dev       # Go API on :8080, Vite on :5173`}</CodeBlock>
+                <p>
+                  Open <strong>localhost:5173</strong>. Mutations in dev mode are no-ops and never modify a real spreadsheet.
+                </p>
+              </Section>
 
-        <Section id="your-sheet" title="Connect your own Google Sheet">
-          <p>This is the step that turns Kosh from a demo into your actual ledger.</p>
-          <ol style={{ paddingLeft: 20, margin: 0 }}>
-            <li style={{ marginBottom: 10 }}>Create a spreadsheet in Google Sheets — Kosh auto-creates the required tabs (with correct headers) on first run against an empty sheet.</li>
-            <li style={{ marginBottom: 10 }}>In <a href="https://console.cloud.google.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-ink)' }}>Google Cloud Console</a>, enable the Sheets API and create a service account with Editor access. Download its JSON key as <code>backend/credentials.json</code>.</li>
-            <li style={{ marginBottom: 10 }}>Share your spreadsheet with the service account's email address.</li>
-            <li>Set <code>SPREADSHEET_ID</code> in <code>backend/.env</code> (the long ID in the sheet's URL), then <code>make dev</code> again — a <code>✓ Connected to Google Sheets</code> line replaces the dev-mode banner.</li>
-          </ol>
-        </Section>
+              <Section id="your-sheet" title="Connect your Google Sheet">
+                <p>This step turns Kosh from a demo into your live family ledger.</p>
+                <ol style={{ paddingLeft: 20, margin: '12px 0 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <li>Create a spreadsheet in Google Sheets — Kosh creates the required tabs and headers automatically on first run against an empty sheet.</li>
+                  <li>In <a href="https://console.cloud.google.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a>, enable the Sheets API and create a service account with Editor access. Save its JSON key as <code>backend/credentials.json</code>.</li>
+                  <li>Share your spreadsheet with the service account email address.</li>
+                  <li>Set <code>SPREADSHEET_ID</code> in <code>backend/.env</code> (the ID in the sheet URL) and run <code>make dev</code> again. A <code>Connected to Google Sheets</code> log confirms the connection.</li>
+                </ol>
+              </Section>
 
-        <Section id="sign-in" title="Adding Google Sign-In">
-          <p>
-            Without sign-in, anyone who can reach your server can see and edit your data. For a private
-            deploy reachable from the internet, restrict access to specific accounts — yourself and your
-            family:
-          </p>
-          <Code>{`GOOGLE_CLIENT_ID=xxxxxxxxxx.apps.googleusercontent.com
+              <Section id="sign-in" title="Adding Google Sign-In">
+                <p>
+                  For any internet-facing deployment, restrict access to invited Google accounts for yourself and your household:
+                </p>
+                <CodeBlock label="backend/.env">{`GOOGLE_CLIENT_ID=xxxxxxxxxx.apps.googleusercontent.com
 SESSION_SECRET=$(openssl rand -base64 32)
-ALLOWED_EMAILS=you@gmail.com,partner@gmail.com`}</Code>
-          <p>
-            Auth is entirely optional — leave these unset to run open on a trusted machine. Whenever
-            sign-in is enabled, the login screen also offers a read-only <strong>Try the demo</strong> mode
-            with no Google account needed — no extra setup required, it's what powers this site's own demo.
-          </p>
-        </Section>
+ALLOWED_EMAILS=you@gmail.com,partner@gmail.com`}</CodeBlock>
+                <p>
+                  Leave these unset when running locally on a trusted machine. Whenever sign-in is active, the login page can also expose a read-only demo mode.
+                </p>
+              </Section>
 
-        <Section id="family-sharing" title="Sharing with family">
-          <p>
-            Give parents or a spouse a read-only view of the whole-family report without a password or a
-            Google account. Each person gets their own link and unlocks it with a 6-digit code from an
-            authenticator app on their phone. No SMS provider is involved. With sign-in set up, add:
-          </p>
-          <Code>{'SHARE_ENCRYPTION_KEY=$(openssl rand -hex 32)'}</Code>
-          <p>
-            A share icon then appears in the top bar. Add a family member, have them scan the one-time
-            setup QR into their authenticator app (in person, never over chat), then send them their link.
-            They're asked for a fresh code every 24 hours, and you can revoke, reset or audit each person
-            from the same screen.
-          </p>
-        </Section>
+              <Section id="family-sharing" title="Sharing with family">
+                <p>
+                  Give parents or a spouse a read-only family report unlocked via a 6-digit authenticator code instead of a Google account or SMS OTP:
+                </p>
+                <CodeBlock label="backend/.env">{'SHARE_ENCRYPTION_KEY=$(openssl rand -hex 32)'}</CodeBlock>
+                <p>
+                  A share icon appears in the top bar. Add a member, scan the one-time QR code into their authenticator app in person, and send their private link. Access expires every 24 hours and can be revoked anytime.
+                </p>
+              </Section>
 
-        <Section id="ai" title="AI features">
-          <p>
-            Two optional capabilities are powered by Claude, both reading only your own data: extracting
-            fields from uploaded FD/insurance/NPS documents, and generating tax-saving recommendations
-            grounded in your actual holdings. Both need an{' '}
-            <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-ink)' }}>Anthropic API key</a>:
-          </p>
-          <Code>{'ANTHROPIC_API_KEY=sk-ant-...'}</Code>
-          <p>Without it, both features are simply unavailable — the rest of the app works normally.</p>
-        </Section>
+              <Section id="ai" title="AI features">
+                <p>
+                  Optional document parsing and tax recommendations are powered by <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer">Anthropic's Claude API</a> and read only your own figures:
+                </p>
+                <CodeBlock label="backend/.env">{'ANTHROPIC_API_KEY=sk-ant-...'}</CodeBlock>
+                <p>Without this key, both features stay hidden and the rest of Kosh works normally.</p>
+              </Section>
 
-        <Section id="metal-rates" title="Gold & silver rates">
-          <p>
-            Gold and silver holdings are valued at the latest rate published by{' '}
-            <a href="https://ibjarates.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-ink)' }}>IBJA</a>{' '}
-            (999 purity, per gram, excluding GST and making charges), refreshed hourly — no setup needed.
-            Only the public rate page is fetched; none of your data leaves your server. To turn it off and
-            keep typing <code>today_price</code> into the sheet yourself:
-          </p>
-          <Code>{'LIVE_METAL_RATES=false'}</Code>
-          <p>If IBJA can't be reached, the sheet's <code>today_price</code> is used instead.</p>
-        </Section>
+              <Section id="metal-rates" title="Gold & silver rates">
+                <p>
+                  Gold and silver holdings automatically value against the latest <a href="https://ibjarates.com" target="_blank" rel="noopener noreferrer">IBJA</a> 999 purity rate per gram (excluding GST and making charges), refreshed hourly. Only the public rate table is fetched. To use manual <code>today_price</code> values instead:
+                </p>
+                <CodeBlock label="backend/.env">{'LIVE_METAL_RATES=false'}</CodeBlock>
+              </Section>
 
-        <Section id="deploying" title="Deploying">
-          <p>
-            Kosh ships as a single Docker image — a static frontend served by the same Go binary that
-            serves the API, so there's exactly one process to run anywhere that runs a Dockerfile
-            (Cloud Run, Fly.io, Render, a VPS).
-          </p>
-          <Code>{`docker build -t kosh .
+              <Section id="deploying" title="Deploying">
+                <p>
+                  Kosh builds into a single Docker image containing both the Go API binary and static frontend assets, ready for Cloud Run, Fly.io, Render, or any VPS:
+                </p>
+                <CodeBlock label="shell">{`docker build -t kosh .
 docker run -p 8080:8080 \\
   -e SPREADSHEET_ID=your_spreadsheet_id \\
   -e GOOGLE_CREDENTIALS_B64=$(base64 -i backend/credentials.json) \\
-  kosh`}</Code>
-          <p>
-            The full guide covers Cloud Run specifically (including a GitHub Actions example for
-            continuous deployment) and the complete environment variable reference.
-          </p>
-        </Section>
+  kosh`}</CodeBlock>
+              </Section>
+            </div>
+          </div>
+        </div>
       </Container>
     </MarketingLayout>
   )

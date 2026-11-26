@@ -1,6 +1,7 @@
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SERIF } from '../../data/tokens.js'
 import { useHosted } from '../../data/serverMode.js'
+import './marketing.css'
 
 const NAV = [
   { to: '/features', label: 'Features' },
@@ -9,11 +10,10 @@ const NAV = [
   { to: '/docs', label: 'Docs' },
 ]
 
-// Centered max-width wrapper reused by every marketing page's content
-// sections — the header/footer above/below intentionally span full width.
-export function Container({ children, style }) {
+// Centered max-width wrapper reused across marketing sections.
+export function Container({ children, style, className = '' }) {
   return (
-    <div style={{ maxWidth: 1080, margin: '0 auto', padding: '0 32px', ...style }}>
+    <div className={'mkt-container ' + className} style={style}>
       {children}
     </div>
   )
@@ -22,45 +22,159 @@ export function Container({ children, style }) {
 export default function MarketingLayout({ children }) {
   const { pathname } = useLocation()
   const hosted = useHosted()
+  const headerRef = useRef(null)
+  const innerRef = useRef(null)
+  const menuRef = useRef(null)
+  const [isWide, setIsWide] = useState(true)
+  const [measuring, setMeasuring] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const isWideRef = useRef(true)
+  const lastHeaderWidth = useRef(0)
+
+  const links = NAV.filter(n => !n.hostedOnly || hosted)
+
+  // Measure whether the inline nav row fits; collapse to native popover when narrow.
+  useLayoutEffect(() => {
+    const header = headerRef.current
+    const inner = innerRef.current
+    const menu = menuRef.current
+    if (!header || !inner || !menu || typeof ResizeObserver === 'undefined') return
+
+    const supportsPopover = typeof HTMLElement !== 'undefined' && Object.hasOwn(HTMLElement.prototype, 'popover')
+
+    const syncLayout = () => {
+      const wasOpen = supportsPopover ? menu.matches(':popover-open') : menuOpen
+      if (supportsPopover && wasOpen) menu.hidePopover()
+
+      setMeasuring(true)
+      header.classList.add('is-measuring', 'is-wide')
+      menu.removeAttribute('popover')
+
+      const fits = inner.scrollWidth <= inner.clientWidth + 1
+      isWideRef.current = fits
+      setIsWide(fits)
+
+      if (!fits) {
+        header.classList.remove('is-wide')
+        if (supportsPopover) {
+          menu.setAttribute('popover', 'auto')
+          if (wasOpen) menu.showPopover()
+        }
+      } else {
+        setMenuOpen(false)
+      }
+
+      requestAnimationFrame(() => {
+        header.classList.remove('is-measuring')
+        setMeasuring(false)
+      })
+    }
+
+    syncLayout()
+
+    const ro = new ResizeObserver(entries => {
+      const w = entries[0]?.contentRect?.width ?? 0
+      if (isWideRef.current || w > lastHeaderWidth.current) {
+        syncLayout()
+      }
+      lastHeaderWidth.current = w
+    })
+    ro.observe(header)
+    ro.observe(menu)
+    return () => ro.disconnect()
+  }, [links.length, hosted])
+
+  useEffect(() => {
+    const menu = menuRef.current
+    if (!menu) return
+    const onToggle = e => setMenuOpen(e.newState === 'open')
+    menu.addEventListener('toggle', onToggle)
+    return () => menu.removeEventListener('toggle', onToggle)
+  }, [])
+
+  // Close mobile menu when navigating between routes.
+  useEffect(() => {
+    const menu = menuRef.current
+    if (menu && typeof menu.hidePopover === 'function' && menu.matches(':popover-open')) {
+      menu.hidePopover()
+    }
+    setMenuOpen(false)
+  }, [pathname])
+
+  const handleMenuClick = () => {
+    const supportsPopover = typeof HTMLElement !== 'undefined' && Object.hasOwn(HTMLElement.prototype, 'popover')
+    if (!supportsPopover) setMenuOpen(o => !o)
+  }
+
+  const headerCls =
+    'site-header' +
+    (isWide ? ' is-wide' : '') +
+    (measuring ? ' is-measuring' : '') +
+    (!isWide && menuOpen ? ' is-open' : '')
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
-      <header className="marketing-header" style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '18px 32px', borderBottom: '1px solid var(--line)', gap: 16,
-      }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'var(--ink)', flexShrink: 0 }}>
-          <div style={{ fontFamily: SERIF, fontSize: 24, color: 'var(--accent)', lineHeight: 1 }}>क</div>
-          <div style={{ fontSize: 15.5, fontWeight: 800, letterSpacing: '-.01em' }}>Kosh</div>
-        </Link>
-        <nav className="marketing-nav-links" style={{ display: 'flex', alignItems: 'center', gap: 26 }}>
-          {NAV.filter(n => !n.hostedOnly || hosted).map(n => (
-            <Link
-              key={n.to}
-              to={n.to}
-              style={{
-                fontSize: 13.5, fontWeight: 600, textDecoration: 'none',
-                color: pathname.startsWith(n.to) ? 'var(--ink)' : 'var(--ink-3)',
-              }}
+    <div className="mkt-shell">
+      <a href="#main-content" className="skip-link">Skip to content</a>
+
+      <header ref={headerRef} className={headerCls}>
+        <div ref={innerRef} className="header-inner">
+          <Link to="/" className="site-brand">
+            <span className="site-brand-glyph" aria-hidden="true">क</span>
+            <span className="site-brand-word">Kosh</span>
+          </Link>
+
+          <nav className="site-nav" aria-label="Primary">
+            <button
+              className="menu-button"
+              type="button"
+              {...{ popovertarget: 'site-menu', popovertargetaction: 'toggle' }}
+              aria-controls="site-menu"
+              aria-expanded={!isWide ? menuOpen : undefined}
+              onClick={handleMenuClick}
             >
-              {n.label}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+              <span>Menu</span>
+            </button>
+
+            <ul ref={menuRef} id="site-menu" className="site-menu">
+              {links.map(n => {
+                const active = pathname.startsWith(n.to)
+                return (
+                  <li key={n.to}>
+                    <Link to={n.to} aria-current={active ? 'page' : undefined}>
+                      {n.label}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+
+          <div className="header-actions">
+            <Link to="/app" className="mkt-btn mkt-btn--primary mkt-btn--sm">
+              Sign in
             </Link>
-          ))}
-        </nav>
-        <Link to="/app" className="btn primary sm" style={{ textDecoration: 'none', flexShrink: 0 }}>
-          Sign in
-        </Link>
+          </div>
+        </div>
       </header>
 
-      <main style={{ flex: 1 }}>{children}</main>
+      <main id="main-content" tabIndex={-1} className="mkt-main">{children}</main>
 
-      <footer style={{ borderTop: '1px solid var(--line)', padding: '32px', textAlign: 'center' }}>
-        <a
-          href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
-          style={{ display: 'inline-block', fontSize: 10.5, letterSpacing: '.04em', color: 'var(--ink-3)', opacity: .6, textDecoration: 'none' }}
-        >
-          Kosh · Serdire
-        </a>
+      <footer className="site-footer">
+        <div className="footer-inner">
+          <Link to="/" className="site-brand">
+            <span className="site-brand-glyph" aria-hidden="true">क</span>
+            <span className="site-brand-word">Kosh</span>
+          </Link>
+          <div className="footer-links">
+            <Link to="/app">Open demo</Link>
+            <a href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer">
+              Source on GitHub (AGPL-3.0)
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   )

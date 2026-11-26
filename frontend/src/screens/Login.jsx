@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { KICK, SERIF } from '../data/tokens.js'
+import { Link } from 'react-router-dom'
+import '../screens/marketing/marketing.css'
 
 export default function Login({ clientId, demoAvailable, onDemo, onLogin, hosted, devLogin }) {
-  const btnRef  = useRef(null)
+  const btnRef = useRef(null)
   const [error, setError] = useState(null)
-  const [busy,  setBusy]  = useState(false)
+  const [busy, setBusy] = useState(false)
   const [demoBusy, setDemoBusy] = useState(false)
   const [devEmail, setDevEmail] = useState('')
 
@@ -88,98 +89,100 @@ export default function Login({ clientId, demoAvailable, onDemo, onLogin, hosted
   }, [clientId, onLogin, devLogin])
 
   return (
-    <div style={{
-      minHeight: '100vh', background: 'var(--bg)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-    }}>
-      <div style={{ width: 360, textAlign: 'center' }}>
-        {/* Brand */}
-        <div style={{
-          fontFamily: SERIF, fontSize: 72, color: 'var(--accent)',
-          lineHeight: 1, marginBottom: 16,
-        }}>क</div>
-        <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-.01em', marginBottom: 4 }}>
-          Kosh
-        </div>
-        <div style={{ ...KICK, marginBottom: 40 }}>Family wealth ledger</div>
-
-        {/* Hairline */}
-        <div style={{ height: 1, background: 'var(--line)', marginBottom: 40 }} />
-
-        {/* Sign-in area */}
-        <div style={{ fontSize: 13.5, color: 'var(--ink-3)', marginBottom: 24, lineHeight: 1.6 }}>
-          {hosted ? (
-            <>Sign in with Google to open your household,<br />or start a 14-day free trial. No card needed.</>
-          ) : (
-            <>Sign in with your Google account to continue.<br />Access is restricted to invited members.</>
-          )}
-        </div>
-
-        {devLogin ? (
-          <form onSubmit={handleDevLogin} style={{ display: 'flex', gap: 8 }}>
-            <input className="input" type="email" required placeholder="any@email (dev build)" value={devEmail}
-              onChange={e => setDevEmail(e.target.value)} aria-label="Dev sign-in email" />
-            <button className="btn primary" disabled={busy}>Sign in</button>
-          </form>
-        ) : busy ? (
-          <div style={{ ...KICK, color: 'var(--accent)' }}>Verifying…</div>
-        ) : (
-          <div ref={btnRef} style={{ display: 'flex', justifyContent: 'center' }} />
-        )}
-
-        {error && (
-          <div style={{
-            marginTop: 20, padding: '12px 16px',
-            background: 'var(--neg-soft)', color: 'var(--neg)',
-            borderRadius: 4, fontSize: 13, lineHeight: 1.5, textAlign: 'left',
-          }}>
-            {error}
+    <div className="auth-page">
+      <div className="auth-shell">
+        <div className="auth-aside">
+          <Link to="/" className="site-brand" style={{ alignSelf: 'flex-start' }}>
+            <span className="site-brand-glyph" aria-hidden="true">क</span>
+            <span className="site-brand-word">Kosh</span>
+          </Link>
+          <h1 className="mkt-h2">Your household ledger, stored in your own Google Sheet.</h1>
+          <p className="mkt-lead">
+            Track mutual funds, stocks, FDs, bullion, insurance, and tax planning without handing your financial history to a third-party database.
+          </p>
+          <ul className="auth-list">
+            <li>Reads and writes directly to a Google Sheet in your Drive</li>
+            <li>Live IBJA 999 gold and silver valuation refreshed hourly</li>
+            <li>Read-only family links protected by phone authenticator codes</li>
+          </ul>
+          <div>
+            <Link to="/" style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--accent)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+              Back to overview
+            </Link>
           </div>
-        )}
-
-        {demoAvailable && (
-          <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '28px 0' }}>
-              <div style={{ flex: 1, height: 1, background: 'var(--line)' }} />
-              <div style={{ ...KICK, fontSize: 9.5 }}>or</div>
-              <div style={{ flex: 1, height: 1, background: 'var(--line)' }} />
-            </div>
-            <button
-              onClick={handleDemo} disabled={demoBusy}
-              style={{
-                display: 'block', width: '100%', padding: '11px 16px', borderRadius: 4,
-                border: '1px solid var(--line)', background: 'none', color: 'var(--ink)',
-                fontSize: 13.5, fontWeight: 600, cursor: demoBusy ? 'default' : 'pointer',
-              }}
-            >
-              {demoBusy ? 'Loading demo…' : 'Try the demo →'}
-            </button>
-            <div style={{ marginTop: 10, fontSize: 12, color: 'var(--ink-3)', lineHeight: 1.5 }}>
-              No sign-in needed — explore with sample data, read-only.
-            </div>
-          </>
-        )}
-
-        {/* Footer */}
-        <div style={{
-          marginTop: 48, fontFamily: SERIF, fontSize: 12.5,
-          fontStyle: 'italic', color: 'var(--ink-3)',
-        }}>
-          A quiet ledger, not a live feed.
         </div>
-        <a
-          href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
-          style={{ ...KICK, display: 'inline-block', marginTop: 16, color: 'var(--ink-3)', textDecoration: 'none' }}
-        >
-          View source & self-host →
-        </a>
-        <div>
-          <a
-            href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
-            style={{ ...KICK, display: 'inline-block', marginTop: 10, fontSize: 9.5, color: 'var(--ink-3)', opacity: .6, textDecoration: 'none' }}
-          >
-            Serdire
-          </a>
+
+        <div className="auth-card">
+          <div style={{ marginBottom: 22 }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 6 }}>
+              {hosted ? 'Open your household' : 'Sign in to Kosh'}
+            </div>
+            <p style={{ fontSize: '0.88rem', color: 'var(--ink-2)', lineHeight: 1.6 }}>
+              {hosted
+                ? 'Sign in with Google to open your household or start a 14-day free trial without a card.'
+                : 'Sign in with your invited Google account to continue.'}
+            </p>
+          </div>
+
+          {devLogin ? (
+            <form onSubmit={handleDevLogin} style={{ display: 'flex', gap: 8 }}>
+              <input
+                className="input"
+                type="email"
+                required
+                placeholder="any@email (dev build)"
+                value={devEmail}
+                onChange={e => setDevEmail(e.target.value)}
+                aria-label="Dev sign-in email"
+              />
+              <button className="btn primary" disabled={busy}>Sign in</button>
+            </form>
+          ) : busy ? (
+            <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--accent)', padding: '10px 0' }}>
+              Verifying credentials…
+            </div>
+          ) : (
+            <div ref={btnRef} style={{ display: 'flex', justifyContent: 'flex-start' }} />
+          )}
+
+          {error && (
+            <div role="alert" style={{
+              marginTop: 18, padding: '12px 14px',
+              background: 'var(--neg-soft)', color: 'var(--neg)',
+              borderRadius: 'var(--r-xs)', fontSize: '0.84rem', lineHeight: 1.5,
+            }}>
+              {error}
+            </div>
+          )}
+
+          {demoAvailable && (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '24px 0' }}>
+                <div style={{ flex: 1, height: 1, background: 'var(--line)' }} />
+                <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--ink-3)' }}>or explore first</span>
+                <div style={{ flex: 1, height: 1, background: 'var(--line)' }} />
+              </div>
+              <button
+                type="button"
+                onClick={handleDemo}
+                disabled={demoBusy}
+                className="mkt-btn"
+                style={{ width: '100%' }}
+              >
+                {demoBusy ? 'Loading sample ledger…' : 'Open read-only demo'}
+              </button>
+              <p style={{ marginTop: 10, fontSize: '0.8rem', color: 'var(--ink-3)', lineHeight: 1.5 }}>
+                Uses sample household figures with zero sign-in or setup.
+              </p>
+            </>
+          )}
+
+          <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, fontSize: '0.8rem', color: 'var(--ink-3)' }}>
+            <span>Open source under AGPL-3.0</span>
+            <a href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', fontWeight: 600 }}>
+              View on GitHub
+            </a>
+          </div>
         </div>
       </div>
     </div>

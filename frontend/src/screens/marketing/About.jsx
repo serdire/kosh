@@ -1,81 +1,83 @@
 import { Link } from 'react-router-dom'
 import MarketingLayout, { Container } from './MarketingLayout.jsx'
-import { KICK, SERIF } from '../../data/tokens.js'
 import { useDocumentTitle } from '../../data/useDocumentTitle.js'
+
+const FACTS = [
+  { k: 'Data store', v: 'Your own Google Sheet' },
+  { k: 'License', v: 'AGPL-3.0 open source' },
+  { k: 'Metal rates', v: 'IBJA 999 hourly feed' },
+  { k: 'AI integration', v: 'Optional (bring your key)' },
+]
 
 export default function About() {
   useDocumentTitle('About — Kosh')
   return (
     <MarketingLayout>
-      <Container style={{ paddingTop: 64, paddingBottom: 16, textAlign: 'center' }}>
-        <div style={{ fontFamily: SERIF, fontSize: 44, color: 'var(--accent)', lineHeight: 1, marginBottom: 20 }}>क</div>
-        <div style={{ ...KICK, marginBottom: 14 }}>About</div>
-        <h1 style={{ fontFamily: SERIF, fontSize: 38, fontWeight: 600, margin: '0 0 16px', letterSpacing: '-.01em' }}>
-          A ledger, not a product
-        </h1>
-      </Container>
+      <section className="page-head" style={{ paddingBottom: 16 }}>
+        <Container>
+          <span className="mkt-label">About</span>
+          <h1 className="mkt-h1" style={{ marginTop: 10, maxInlineSize: '18ch' }}>
+            A calm ledger, not a consumer product.
+          </h1>
+        </Container>
+      </section>
 
-      <Container style={{ maxWidth: 680, paddingTop: 24, paddingBottom: 64 }}>
-        <div style={{ fontSize: 15.5, color: 'var(--ink-2)', lineHeight: 1.85 }}>
-          <p>
-            Kosh started as a spreadsheet — the same one most Indian households already keep, tracking FDs
-            in one tab, mutual funds in another, and a running argument with yourself about whether this
-            year's tax regime actually saves you money. It got built into an app because the spreadsheet
-            kept needing formulas nobody remembered how to write six months later.
-          </p>
-          <p>
-            It's a personal project built to manage family finances — investments, insurance, loans,
-            and the yearly tax-planning scramble — in one place instead of five. It's shared publicly
-            because the problem it solves isn't unique to one household.
-          </p>
+      <Container>
+        <div className="about-grid">
+          <aside className="about-facts">
+            {FACTS.map(f => (
+              <div key={f.k} className="about-fact">
+                <div style={{ fontSize: '0.78rem', color: 'var(--ink-3)', marginBottom: 4 }}>{f.k}</div>
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--ink)' }}>{f.v}</div>
+              </div>
+            ))}
+          </aside>
 
-          <div style={{ height: 1, background: 'var(--line)', margin: '40px 0' }} />
+          <article className="about-essay">
+            <p>
+              Kosh started as a spreadsheet — the same workbook most Indian households already keep, tracking fixed deposits in one tab, mutual funds in another, and a running calculation of whether the new or old tax regime saves money this year. It became an application when maintaining formulas across tabs every quarter grew brittle.
+            </p>
+            <p>
+              It was built for managing real family finances — investments, insurance coverage, loans, and annual tax planning — in one composed space instead of five disconnected portals, and released openly because the problem is common across households.
+            </p>
 
-          <div style={{ ...KICK, marginBottom: 14 }}>Why a Google Sheet, not a database</div>
-          <p>
-            Every finance app asks you to trust a company with your bank balances, your insurance cover,
-            your family's net worth — in exchange for a nicer chart. Kosh doesn't hold that data at all.
-            It reads and writes a Google Sheet you own, the same way you'd edit it by hand. Self-hosted,
-            the only parties with access to your numbers are you, Google (as your existing spreadsheet
-            provider), and — only if you turn it on — Anthropic, for the AI features that parse documents
-            and draft tax recommendations from your own data.
-          </p>
-          <p>
-            That's also why it can stay a serious tool without becoming a subscription: there's no server
-            bill scaling with your data, because there's no server holding your data.
-          </p>
+            <h2>Why a Google Sheet instead of a database</h2>
+            <p>
+              Most finance tools require trusting an external company with bank balances, insurance cover, and net worth in exchange for charts. Kosh removes that custody tradeoff by reading and writing directly to a Google Sheet you own. When self-hosted, only you, Google (as your spreadsheet host), and optionally Anthropic (if you configure an AI key) ever touch your numbers.
+            </p>
+            <p>
+              Because there is no multi-tenant database scaling behind your portfolio, Kosh stays maintainable without forcing a business model built around locking in your history.
+            </p>
 
-          <div style={{ height: 1, background: 'var(--line)', margin: '40px 0' }} />
-
-          <div style={{ ...KICK, marginBottom: 14 }}>What "done" looks like</div>
-          <p>
-            Kosh isn't trying to become a bank-linked, auto-categorizing budgeting app — there are good
-            ones of those already. It's trying to be the calmest possible view of a family's actual
-            holdings: what you have, what it's worth, what you owe, and what to do about taxes before the
-            financial year runs out. Investment tracking, tax planning, and CA-ready reporting are built;
-            self-hosting documentation and further AI-assisted planning are the current focus.
-          </p>
+            <h2>What Kosh aims to stay</h2>
+            <p>
+              Kosh does not try to replace bank-linked expense auto-categorizers. Its focus is long-horizon household clarity: what your family holds, what it is worth today, what you owe, and how to plan taxes before March 31.
+            </p>
+          </article>
         </div>
       </Container>
 
-      <div style={{ borderTop: '1px solid var(--line)', background: 'var(--surface)' }}>
-        <Container style={{ paddingTop: 56, paddingBottom: 56, textAlign: 'center' }}>
-          <div style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 600, marginBottom: 20 }}>
-            Curious how it's built, or want to run your own copy?
-          </div>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/docs" className="btn primary" style={{ textDecoration: 'none', padding: '11px 22px', fontSize: 14 }}>
-              Read the self-host guide
-            </Link>
-            <a
-              href="https://github.com/serdire/kosh" target="_blank" rel="noopener noreferrer"
-              className="btn" style={{ textDecoration: 'none', padding: '11px 22px', fontSize: 14 }}
-            >
-              View source on GitHub
-            </a>
+      <section className="mkt-section mkt-section--surface">
+        <Container>
+          <div className="cta-band">
+            <div>
+              <h2 className="mkt-h2">Inspect the source or launch your own copy.</h2>
+              <p>Read the self-hosting guide or browse the repository on GitHub.</p>
+            </div>
+            <div className="cta-band-actions">
+              <Link to="/docs" className="mkt-btn mkt-btn--inverted">Read self-host guide</Link>
+              <a
+                href="https://github.com/serdire/kosh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mkt-btn mkt-btn--ghost-light"
+              >
+                View source on GitHub
+              </a>
+            </div>
           </div>
         </Container>
-      </div>
+      </section>
     </MarketingLayout>
   )
 }
